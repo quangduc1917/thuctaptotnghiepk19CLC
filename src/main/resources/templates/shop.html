@@ -1,0 +1,138 @@
+<!--
+Author:W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+
+<!DOCTYPE html>
+<html lang="zxx"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <title>Laptop online store</title>
+    <!-- Meta tag Keywords -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8"/>
+    <meta name="keywords"
+          content="Baggage Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
+    <script>
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+    <!-- //Meta tag Keywords -->
+    <!-- Custom-Files -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <!-- Bootstrap-Core-CSS -->
+    <link rel="stylesheet" href="/css/style.css" type="text/css" media="all"/>
+    <!-- Style-CSS -->
+    <!-- font-awesome-icons -->
+    <link href="/css/font-awesome.css" rel="stylesheet">
+    <!-- //font-awesome-icons -->
+    <!-- /Fonts -->
+    <link href="//fonts.googleapis.com/css?family=Hind:300,400,500,600,700" rel="stylesheet">
+    <!-- //Fonts -->
+
+</head>
+
+<body>
+<div class="main-sec">
+    <!-- //header -->
+    <header th:replace="fragments/header::header"></header>
+    <div class="banner-wthree-info container">
+        <div class="row">
+            <div class="col-lg-5 banner-left-info">
+                <h3>Genuine Laptop</h3>
+                <a href="/shopPage" class="btn shop">Shop Now</a>
+            </div>
+
+            <div class="col-lg-7 banner-img">
+                <img style="width: 1000px; height: 400px" src="images/asus-tp300la-dw060h-slider-02.jpg" alt="part image" class="img-fluid">
+            </div>
+        </div>
+    </div>
+    <!-- //header -->
+</div>
+<!-- //banner-->
+<!--/banner-bottom -->
+<section class="banner-bottom py-5">
+    <div class="container py-5">
+        <h3 class="title-wthree mb-lg-5 mb-4 text-center">Shop Now</h3>
+        <!--/row-->
+        <div class="row shop-wthree-info text-center">
+            <div th:each="p : ${listProducts}" class="col-lg-3 shop-info-grid text-center mt-4">
+                <div class="product-shoe-info shoe">
+                    <div class="men-thumb-item">
+                        <img th:src="${p.imageUrl}" class="img-fluid" alt="">
+
+                    </div>
+                    <div class="item-info-product">
+                        <h4>
+                            <a href="single.html">[[${p.name}]] </a>
+                        </h4>
+
+                        <div class="product_price">
+                            <div class="grid-price">
+                                <span class="money"><span class="line">$799</span> $[[${p.price}]]</span>
+                            </div>
+                        </div>
+                        <ul class="stars">
+                            <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
+                            <li><a href="#"><span class="fa fa-star" aria-hidden="true"></span></a></li>
+                            <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
+                            <li><a href="#"><span class="fa fa-star-half-o" aria-hidden="true"></span></a></li>
+                            <li><a href="#"><span class="fa fa-star-o" aria-hidden="true"></span></a></li>
+                        </ul>
+                        <div sec:authorize="hasAnyAuthority('USER')">
+                            <a th:href="@{/shoppingCart/addToCart/{id}(id=${p.id})}">Add to cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--//row-->
+        </div>
+        <div th:if="${totalPages > 1}">
+        <nav aria-label="Page navigation example mt-5" >
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" th:if="${currentPage > 1}" th:href="@{'/shopPage/' + ${currentPage - 1}}">Previous</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(1, totalPages)}" class="page-item">
+                    <a class="page-link" th:if="${currentPage != i}" th:href="@{'/shopPage/' + ${i}}">[[${i}]]</a>
+                    <a class="page-link" th:unless="${currentPage != i}">[[${i}]]</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" th:if="${currentPage < totalPages}" th:href="@{'/shopPage/' + ${currentPage + 1}}">Next</a>
+                </li>
+            </ul>
+        </nav>
+        </div>
+    </div>
+</section>
+<!-- /banner-bottom -->
+<!--/newsletter -->
+
+<!--//shipping-->
+<!-- footer -->
+<div th:replace="fragments/footer::footer"></div>
+<!-- //footer -->
+<!-- copyright -->
+<div class="cpy-right text-center py-3">
+    <p>© 2019 Baggage. All rights reserved | Design by
+        <a href="http://w3layouts.com"> W3layouts.</a>
+    </p>
+</div>
+<!-- //copyright -->
+
+</body>
+
+</html>

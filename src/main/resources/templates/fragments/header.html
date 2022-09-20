@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zxx"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:fragment="header" class="py-sm-3 pt-3 pb-2" id="home">
+    <div class="container">
+        <!-- nav -->
+        <div class="top-w3pvt d-flex">
+            <div id="logo">
+                <h1><a href="/"><span class="log-w3pvt">L</span>aptop</a> <label class="sub-des">Online Store</label>
+                </h1>
+            </div>
+
+            <div class="forms ml-auto">
+                <a sec:authorize="isAnonymous()" href="/loginPage" class="btn"><span class="fa fa-user-circle-o"></span> Sign In</a>
+                <a  sec:authorize="isAuthenticated()" th:href="@{/logout}" class="btn"><span
+                        class="fa fa-user-circle-o"></span> Logout</a>
+                <a href="/registerPage" class="btn"><span class="fa fa-pencil-square-o"></span> Sign Up</a>
+            </div>
+        </div>
+        <div class="nav-top-wthree">
+            <nav>
+                <label for="drop" class="toggle"><span class="fa fa-bars"></span></label>
+                <input type="checkbox" id="drop"/>
+                <ul class="menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/aboutPage">About Us</a></li>
+                    <li><a href="/shopPage">Shop</a></li>
+                    <li><a href="/contactPage">Contact</a></li>
+                    <li sec:authorize="hasAnyAuthority('USER')"><a href="/cartPage">Cart</a></li>
+                    <li sec:authorize="hasAnyAuthority('USER')"><a href="/billPage">Order</a></li>
+                </ul>
+            </nav>
+            <!-- //nav -->
+            <div class="search-form ml-auto">
+                <div class="form-w3layouts-grid">
+                    <form th:action="@{/shopCategoryPage}" method="get" class="newsletter">
+                        <input class="search" type="search" placeholder="Search here..." required="" th:name="category">
+                        <input class="search" type="hidden" placeholder="Search here..." required="" th:name="pageNo"
+                               th:value="1">
+                        <button class="form-control btn" type="submit"><span class="fa fa-search"></span></button>
+                    </form>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</header>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zxx"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+</head>
+<body>
+<nav th:replace="admin/fragments/nav::nav"></nav>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Description</th>
+        <th scope="col">Image</th>
+        <th scope="col">Category</th>
+        <th sec:authorize="hasAnyAuthority('CREATOR','ADMIN','EDITOR')" scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p : ${listProducts}">
+        <td th:text="${p.name}"></td>
+        <td th:text="${p.price}"></td>
+        <td th:text="${p.description}"></td>
+        <td><img th:src="${p.imageUrl}" style="width: 70px; height: 50px" /></td>
+        <td th:text="${p.category.name}"></td>
+        <td><a sec:authorize="hasAnyAuthority('EDITOR','ADMIN')" class="btn btn-primary" th:href="@{/admin/updateProductPage/{id}(id=${p.id})}" role="button">Update</a> <a sec:authorize="hasAnyAuthority('ADMIN')" class="btn btn-danger" th:href="@{/admin/deleteProduct/{id}(id=${p.id})}" role="button">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<div th:if="${totalPages > 1}">
+    <div class="row col-sm-10">
+        <div class="col-sm-2">
+            Total Rows: [[${totalItems}]]
+        </div>
+        <div class="col-sm-1">
+            <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                <a th:if="${currentPage != i}" th:href="@{'/admin/productsPage/' + ${i}}">[[${i}]]</a>
+                <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+            </span>
+        </div>
+        <div class="col-sm-1">
+            <a th:if="${currentPage < totalPages}" th:href="@{'/admin/productsPage/' + ${currentPage + 1}}">Next</a>
+
+        </div>
+        <div class="col-sm-1">
+            <a th:if="${currentPage < totalPages}" th:href="@{'/admin/productsPage/' + ${totalPages}}">Last</a>
+        </div>
+        <div class="col-sm-1">
+            <a th:if="${currentPage > 1}" th:href="@{'/admin/productsPage/' + ${currentPage - 1}}">Pre</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
